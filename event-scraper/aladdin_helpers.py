@@ -4,7 +4,7 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 
-def aladdin_events():
+def aladdin_events( events_json ):
     url = 'https://www.aladdin-theater.com/listing/'
     response = requests.get(url)
     soup = BeautifulSoup(response.content)
@@ -30,12 +30,18 @@ def aladdin_events():
                 continue
             else:
                 append_line += act + '\n' + venue + '\n' + link + '\n' + date_formatted + '\n\n' 
-    return append_line
+                events_json['events'].append( {
+                   'event' : act,
+                   'event-venue' : venue,
+                   'event-page' : link,
+                   'event-dates' : date_formatted
+                   } )
+    return append_line, events_json
 
-def scrape_aladdin(file_path):
-    aladdin_theater_events = aladdin_events()
+def scrape_aladdin( file_path, events_json ):
+    aladdin_theater_events, events_json = aladdin_events( events_json )
     print(aladdin_theater_events)
     fopen = open( file_path, 'a', encoding='utf-8' )
     fopen.write( aladdin_theater_events )
     fopen.close()
-    return
+    return events_json

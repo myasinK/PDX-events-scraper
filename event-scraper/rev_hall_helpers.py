@@ -7,7 +7,7 @@ from datetime import datetime, date, time
 import datetime
 import dateutil.parser
 
-def rev_hall_events():
+def rev_hall_events( events_json ):
     url = 'https://www.revolutionhall.com/'
     response = requests.get(url)
     soup = BeautifulSoup(response.content)
@@ -26,12 +26,17 @@ def rev_hall_events():
         date = dateutil.parser.parse( h2_event_date_list[event] ).strftime("%m/%d/%y") 
         if date[-2:] == '19':
             append_line += act + '\n' + venue + '\n' + link + '\n' + date + '\n\n'
+            events_json['events'].append( { 
+                   'event' : act,
+                   'event-venue' : venue,
+                   'event-page' : link,
+                   'event-dates' : date
+                    } )
+    return append_line, events_json
 
-    return append_line
-
-def scrape_rev_hall( file_path ):
-    revolution_hall_events = rev_hall_events() 
+def scrape_rev_hall( file_path, events_json ):
+    revolution_hall_events, events_json = rev_hall_events( events_json ) 
     fopen = open( file_path, 'a', encoding='utf-8' )
     fopen.write( revolution_hall_events )
     fopen.close()
-    return
+    return events_json

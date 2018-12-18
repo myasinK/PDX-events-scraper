@@ -6,13 +6,19 @@ from rev_hall_helpers import *
 
 
 file_path = 'C:\\xampp\\htdocs\\all_events.txt'
+json_path = 'C:\\xampp\\htdocs\\events-json.txt'
 
-scrape_pcpa( file_path )
+events_json = {}
+events_json['events'] = []
 
-scrape_aladdin( file_path )
+scrape_pcpa( file_path, events_json )
 
-scrape_rev_hall( file_path )
+scrape_aladdin( file_path, events_json )
 
-scrape_wonder_ballroom( file_path )
+scrape_rev_hall( file_path, events_json )
 
+# Uses selenium
+scrape_wonder_ballroom( file_path, events_json )
 
+with open(json_path, 'a') as json_file:
+    json.dump( events_json, json_file )

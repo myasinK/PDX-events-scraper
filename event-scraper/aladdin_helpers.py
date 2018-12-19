@@ -6,13 +6,13 @@ from bs4 import BeautifulSoup
 
 def aladdin_events( events_json ):
     url = 'https://www.aladdin-theater.com/listing/'
+    event_page_const = 'https://www.aladdin-theater.com'
     response = requests.get(url)
     soup = BeautifulSoup(response.content)
     h1 = soup.find_all("h1", {"class": "headliners summary"})
-    h2 = soup.find_all("h2", {"class": "dates"})
-    
+    h2 = soup.find_all("h2", {"class": "dates"})    
     h1_event_name_list = [h1[n].text for n in range(len(h1))]
-    h1_event_page_list = [url + h1[n].a['href'] for n in range(len(h1))]
+    h1_event_page_list = [event_page_const + h1[n].a['href'] for n in range(len(h1))]
     h2_event_date_list = [h2[n].text for n in range(len(h2))]
 
     append_line = ''

@@ -2,7 +2,6 @@
 
 import requests
 from bs4 import BeautifulSoup
-from rev_hall_helpers import *
 from datetime import datetime, date, time
 import datetime
 import dateutil.parser

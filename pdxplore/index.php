@@ -11,7 +11,7 @@
     
 <?php 
     echo nl2br("Listing all events by date \n\n");
-    $strJsonFileContents = file_get_contents("events-json.txt");
+    $strJsonFileContents = file_get_contents('./../json/events-json.txt');
     $events_array = json_decode($strJsonFileContents, TRUE);
     // echo nl2br( date("m/d/y", strtotime("2011/01/07"))."\n" );
     // echo ( date("m/d/y", strtotime("11/01/07")) <=> date("m/d/y", strtotime("11/01/06")) )."<br>";
